@@ -103,7 +103,6 @@ public class CategoryProductCartController {
 			String userId = restTemplate.postForObject("http://localhost:8081/getUserId", tokenUsername, String.class);
 			int  TotalProduct = this.categoryServices.getPageCountForAllProducts(product.getCategory_id());
 		
-			
 			int count = TotalProduct%pagesize;
 			if(count==0)
 			{
@@ -116,7 +115,6 @@ public class CategoryProductCartController {
 				int val = val1+1;
 				return val;
 			}
-	
 			return count;
 		}
 		else {
@@ -138,7 +136,6 @@ public class CategoryProductCartController {
 				int val = val1+1;
 				return val;
 			}
-	
 			return count;
 
 			
@@ -167,7 +164,6 @@ public class CategoryProductCartController {
 					String.class);
 
 			String userId = restTemplate.postForObject("http://localhost:8081/getUserId", tokenUsername, String.class);
-			
 			return this.categoryServices.allProducts(pageable);
 		}
 		else {
@@ -186,15 +182,15 @@ public class CategoryProductCartController {
 	 @RequestMapping(value = "/releaseTrendingProducts")
 	  
 	  @ResponseBody 
-	  public List<Products> newProducts() { return
-	  this.categoryServices.newProducts();
+	  public List<Products> newProducts() { 
+		 return this.categoryServices.newProducts();
 	  
 	  }
 	 @RequestMapping(value = "/nextReleaseProducts")
 	  
 	  @ResponseBody 
-	  public List<Products> getNewRelease() { return
-	  this.categoryServices.getNewRelease();
+	  public List<Products> getNewRelease() { 
+		 return this.categoryServices.getNewRelease();
 	  
 	  }
 	

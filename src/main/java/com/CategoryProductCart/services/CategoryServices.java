@@ -79,11 +79,11 @@ public class CategoryServices {
 //		return productlist;
 //	}
 
-	 public List<Products> newProducts() { return
-			  productRepository.getNewproducts(); }
+	 public List<Products> newProducts() { 
+		 return productRepository.getNewproducts(); }
 	 
-	 public List<Products> getNewRelease() { return
-			  productRepository.getNewRelease(); }
+	 public List<Products> getNewRelease() { 
+		 return productRepository.getNewRelease(); }
 	/*
 	 * public Page<Products> findPaginated(int pageNo, int pageSize) { PageRequest
 	 * pageable = PageRequest.of(pageNo - 1, pageSize); return
