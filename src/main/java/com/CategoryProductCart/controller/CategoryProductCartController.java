@@ -78,6 +78,7 @@ public class CategoryProductCartController {
 				String.class);
 		int userid = Integer.parseInt(result);
 		order.setUserid(userid);
+		System.out.println(this.categoryServices.cartproducts(userid));
 		return this.categoryServices.cartproducts(userid);
 	}
 	
@@ -253,7 +254,7 @@ public class CategoryProductCartController {
 		int userid = Integer.parseInt(result);
 		order.setUserid(userid);
 		order.setQuantity(orders.getQuantity());
-		Integer existingUserId = orderrepo.findByUserid(userid);
+		Integer existingUserId = orderrepo.findByUserid(order.getProduct_id(), userid);
 		Integer existingProductId = orderrepo.findByProductId(order.getProduct_id(), userid);
 		Integer existingQuantity = orderrepo.findByQuantity(order.getProduct_id(), userid);
 		if (existingUserId == null) {

@@ -23,4 +23,5 @@ public interface CategoryRepository extends JpaRepository<Category,Integer>
 	 
 	 @Query(value = "select distinct(c.category_id), c.category_name from category c join product p on c.category_id = p.category_id where p.category_id=:categoryid", nativeQuery = true)
 		public List<Map<String, Object>> getProductsBasedOnCategory1(int categoryid);
+	 
 }
