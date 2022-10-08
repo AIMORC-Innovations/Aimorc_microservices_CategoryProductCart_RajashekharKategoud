@@ -60,6 +60,7 @@ public class CategoryServices {
 				String category_name = (String) eachCategoryMap.get("category_name");
 				
 				List<Map<String, Object>> allProductsBasedOnCategory = productRepository.findProducts(categoryId, userid);
+				//System.out.println("allProductsBasedOnCategory"+allProductsBasedOnCategory);
 				Map<String, Object> eachInfoMap = new HashMap<String, Object>();
 				eachInfoMap.put("categoryId", categoryId);
 				eachInfoMap.put("category_name", category_name);
@@ -143,8 +144,19 @@ public class CategoryServices {
 	}
 
 	public Page<Products> viewCategory(int category_id, Pageable pageable) {
+		System.out.println("View category : "+ this.productRepository.findProducts(category_id, pageable));
 		return this.productRepository.findProducts(category_id, pageable);
 
+	}
+	
+	public Products getProductDetails(int product_id) {
+		Products products = this.productRepository.findDetailsByProductId(product_id);
+		return products;
+	}
+	
+	public void editProductDetails(int product_id, String product_name, String product_description, double product_price, double max_quantity, String status) {
+		int products = this.productRepository.updateProductDetailsByProductId(product_id, product_name, product_description, product_price, max_quantity, status);
+		//return products;
 	}
 
 	public Page<Products> pageProducts(int category_id, Pageable Pageable) {

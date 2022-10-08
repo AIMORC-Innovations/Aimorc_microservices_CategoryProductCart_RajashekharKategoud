@@ -24,6 +24,8 @@ public class Products {
 	private String product_description;
 	private double product_price;
 	private int category_id;
+	private double max_quantity;
+	private String status;
 	
 	
 	

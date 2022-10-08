@@ -78,7 +78,7 @@ public class CategoryProductCartController {
 				String.class);
 		int userid = Integer.parseInt(result);
 		order.setUserid(userid);
-		System.out.println(this.categoryServices.cartproducts(userid));
+		System.out.println("getproducts from cart"+this.categoryServices.cartproducts(userid));
 		return this.categoryServices.cartproducts(userid);
 	}
 	
@@ -145,6 +145,23 @@ public class CategoryProductCartController {
 		
 
 	}
+	
+	@RequestMapping(value="/getProductDetailsBasedOnProductId")
+	@ResponseBody
+	public Products getProductDetails(@RequestBody Products products) {
+		products = categoryServices.getProductDetails(products.getProduct_id());
+		return products;
+	}
+	
+	
+	@RequestMapping(value="/editProductDetails")
+	@ResponseBody
+	public void editProductDetails(@RequestBody Products products) {
+		//products = categoryServices.editProductDetails(products.getProduct_id(), products.getProduct_name(), products.getProduct_description(), products.getProduct_price(), products.getMax_quantity());
+		this.categoryServices.editProductDetails(products.getProduct_id(), products.getProduct_name(), products.getProduct_description(), products.getProduct_price(), products.getMax_quantity(), products.getStatus());
+		
+		//return products;
+	}
 
 	
 	@RequestMapping(value = "/viewCategory")
@@ -165,6 +182,7 @@ public class CategoryProductCartController {
 					String.class);
 
 			String userId = restTemplate.postForObject("http://localhost:8081/getUserId", tokenUsername, String.class);
+			System.out.println("inside if : " + this.categoryServices.allProducts(pageable));
 			return this.categoryServices.allProducts(pageable);
 		}
 		else {
@@ -174,6 +192,7 @@ public class CategoryProductCartController {
 
 			String userId = restTemplate.postForObject("http://localhost:8081/getUserId", tokenUsername, String.class);
 			Pageable pageable = PageRequest.of(product.getPage(), pagesize);
+			System.out.println("inside else : " + this.categoryServices.viewCategory(product.getCategory_id(),pageable));
 			return this.categoryServices.viewCategory(product.getCategory_id(),pageable);
 		}
 		
@@ -252,15 +271,20 @@ public class CategoryProductCartController {
 		String result = restTemplate.postForObject("http://localhost:8081/getUserId", tokenUsername,
 				String.class);
 		int userid = Integer.parseInt(result);
+		System.out.println(userid+"    ---userid---   ");
 		order.setUserid(userid);
 		order.setQuantity(orders.getQuantity());
+		System.out.println("order.getProduct_id()------>"+order.getProduct_id());
 		Integer existingUserId = orderrepo.findByUserid(order.getProduct_id(), userid);
+		System.out.println(existingUserId+"   -----existingUserId------    ");
 		Integer existingProductId = orderrepo.findByProductId(order.getProduct_id(), userid);
+		System.out.println(existingProductId+"        ----existingProductId----    ");
 		Integer existingQuantity = orderrepo.findByQuantity(order.getProduct_id(), userid);
-		if (existingUserId == null) {
+		System.out.println(existingQuantity+"        ----existingQuantity----    ");
+		if (existingUserId != null) { //existingUserId == null
 			categoryServices.addingProductToCart(order);
 		} 
-		else if(existingQuantity!=null) {
+		else if(existingQuantity!=null) { //else if
 			int quantity = existingQuantity + orders.getQuantity();
 			order.setQuantity(quantity);
 			categoryServices.varyQuantity(order.getQuantity(), order.getProduct_id(), order.getUserid());
