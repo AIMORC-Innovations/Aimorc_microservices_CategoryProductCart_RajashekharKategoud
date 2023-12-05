@@ -42,9 +42,10 @@ public interface ProductRepository extends JpaRepository<Products,Integer>
 	@Query(value="select p.product_id, p.product_name , p.max_quantity, p.status, p.product_description , p.product_price,  p.category_id from  product p   where p.category_id = :category_id", nativeQuery = true)
 	public Page<Products> findProducts( @Param("category_id")  int category_id, Pageable pageable);
 
+	
 	@Modifying
-	@Query(value="update product set product_name = :product_name, product_description = :product_description, product_price = :product_price, max_quantity = :max_quantity, status=:status where product_id = :product_id", nativeQuery = true)
-	public int updateProductDetailsByProductId(@Param("product_id") int product_id, @Param("product_name") String product_name, @Param("product_description") String product_description, @Param("product_price") double product_price, @Param("max_quantity") double max_quantity, @Param("status") String status);
+	@Query(value="update product set category_id=:category_id, product_name = :product_name, product_description = :product_description, product_price = :product_price, max_quantity = :max_quantity, status=:status where product_id = :product_id", nativeQuery = true)
+	public int updateProductDetailsByProductId(@Param("category_id") int category_id,  @Param("product_id") int product_id, @Param("product_name") String product_name, @Param("product_description") String product_description, @Param("product_price") double product_price, @Param("max_quantity") double max_quantity, @Param("status") String status);
 	
 	@Query(value="select * from product where product_id=?", nativeQuery=true)
 	public Products findDetailsByProductId(@Param("product_id") int product_id);

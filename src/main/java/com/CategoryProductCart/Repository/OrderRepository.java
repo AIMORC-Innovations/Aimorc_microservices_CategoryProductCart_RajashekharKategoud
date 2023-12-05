@@ -49,4 +49,5 @@ public interface OrderRepository extends JpaRepository<Orders, Integer> {
 	@Query(value = "select userid from orders where userid = :userid and product_id = :product_id",nativeQuery = true)
 	public Integer findByUserid(@Param("product_id") int product_id ,@Param("userid") int userid);
 
+	
 }
