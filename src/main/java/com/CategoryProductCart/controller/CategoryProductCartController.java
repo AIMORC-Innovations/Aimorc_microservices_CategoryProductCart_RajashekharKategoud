@@ -85,7 +85,7 @@ import java.io.InputStreamReader;
 
 
 
-
+//this.categoryServices.methodName(); points to the method in the CategoryServices.java file 
 
 @RestController
 @CrossOrigin("*")
@@ -110,6 +110,7 @@ public class CategoryProductCartController {
         this.restTemplate = restTemplate;
     }
     
+	//This api is called in the adminhome.jsp page to retrive all the categories of products.
 	@RequestMapping(value = "/allCategories")
 	@ResponseBody
 	public List<Category> getAllCategories() {
@@ -126,6 +127,7 @@ public class CategoryProductCartController {
 //		return category;
 //	}
 	
+	//This API is used to get the products from the cart
 	@RequestMapping(value = "/getProductsFromCart", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
    public Map<String, Object> getProductsFromCart(@RequestBody ProductOrders orders) {
@@ -141,6 +143,7 @@ public class CategoryProductCartController {
 		return this.categoryServices.cartproducts(userid);
 	}
 	
+	//This APi is used to Add stock unit addresses for each products.
 	@RequestMapping(value = "/addStockUnitAddress", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public StockUnit addStockUnitAddress(@RequestBody StockUnit stockUnit){ 
@@ -150,6 +153,7 @@ public class CategoryProductCartController {
 		
 	}  
 	
+	//This api is used to add new product category and it called in adminhome.jsp page
 	@RequestMapping(value = "/addNewCategory", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public void addNewCategory(@RequestBody Category category) {
@@ -157,7 +161,7 @@ public class CategoryProductCartController {
 		this.categoryServices.addNewCategory(category);
 	}
 	
-	
+	//This api is used to get stock unit addresses of one product based on product id.
 	@RequestMapping(value = "/getStockUnitAddress", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public  List<Map<StockUnit, Object>> getScheduledAddress(@RequestBody StockUnit stockUnit){
@@ -165,12 +169,13 @@ public class CategoryProductCartController {
 		return this.categoryServices.getStockUnitAddress(/* stockUnit.getSku_id(),*/ stockUnit.getProduct_id(), stockUnit.getProduct_address1(), stockUnit.getProduct_address2(), stockUnit.getProduct_city(), stockUnit.getProduct_country(), stockUnit.getProduct_state(), stockUnit.getProduct_zip());
 	}	
 	
+	//This api is used to delete stock unit address for each products
 	@RequestMapping(value = "/deleteStockUnitAddress", method = RequestMethod.POST, produces = "application/json")
 	public ResponseEntity<String> deleteStockUnitAddress(@RequestBody StockUnit stockUnit) {
 		return this.categoryServices.deleteStockUnitAddress(stockUnit);
 	}
 	
-	
+	//This api is used to get all the product details of the product to show it in seperate page for the product information
 	@RequestMapping(value="/singleProductInfo", method = RequestMethod.POST, produces = "application/json")
 		@ResponseBody
 		public Products singleProductInfo(@RequestBody ProductOrders product) {
@@ -180,6 +185,7 @@ public class CategoryProductCartController {
 
 	 }
 
+	//This api is used to get the page count for one specific category selected. based on number of products available in category it'll show the page count
 	@RequestMapping(value = "/getPageCountforCategory")
 	@ResponseBody
 	public int getPageCount(@RequestBody ProductOrders product) {
@@ -235,6 +241,7 @@ public class CategoryProductCartController {
 
 	}
 	
+	//This api is used to get all the product details of the product to show it in seperate page for the product information
 	@RequestMapping(value="/getProductDetailsBasedOnProductId")
 	@ResponseBody
 	public Products getProductDetails(@RequestBody Products products) {
@@ -243,7 +250,7 @@ public class CategoryProductCartController {
 	}
 	
 	
-	
+	//This api is used to get address details based on sku id, suppose when stock unti address needs to edited, then address details will be retrived and is populated in the textbox.
 	@RequestMapping(value="/getSKUAddressBasedOnSkuId")
 	@ResponseBody
 	public StockUnit getSKUAddressBasedOnSkuId(@RequestBody StockUnit stockUnit) {
@@ -251,6 +258,7 @@ public class CategoryProductCartController {
 		return stockUnit;
 	}
 	
+	//This api is used to edit/update the stock unit address for each products
 	@PostMapping("/editStockUnitAddress")
 	@ResponseBody
 	public ResponseEntity<String> editStockUnitAddress(@RequestBody StockUnit stockUnit){
@@ -259,7 +267,7 @@ public class CategoryProductCartController {
 	}
 		
 	
-	
+	//this api is used to edit product details like category, price, product description, name, number of qunatity available etc.
 	@RequestMapping(value="/editProductDetails")
 	@ResponseBody
 	public void editProductDetails(@RequestBody Products products) {
@@ -269,7 +277,7 @@ public class CategoryProductCartController {
 		//return products;
 	}
 
-	
+	//This api will return the all the products belongs to one category when selected in user home page or admin home page
 	@RequestMapping(value = "/viewCategory")
 	@ResponseBody
 	public Page<Products> viewCategory(@RequestBody ProductOrders product) {
@@ -307,7 +315,7 @@ public class CategoryProductCartController {
 	
 	
 	 
-	 
+	 //This api is used to show trending products in the user home page, products which are marked with trending are returned to this API
 	 @RequestMapping(value = "/releaseTrendingProducts")
 	  
 	  @ResponseBody 
@@ -315,6 +323,8 @@ public class CategoryProductCartController {
 		 return this.categoryServices.newProducts();
 	  
 	  }
+	 
+	//This api is used to show next release products in the user home page, products which are marked with next release are returned to this API
 	 @RequestMapping(value = "/nextReleaseProducts")
 	  
 	  @ResponseBody 
@@ -323,7 +333,7 @@ public class CategoryProductCartController {
 	  
 	  }
 	
-
+//this is used to decode the jwt string and get the username ,userid form it 
 	public Object decodeToken(String token)
 	{
 		 Base64.Decoder decoder = Base64.getDecoder();
@@ -348,6 +358,8 @@ public class CategoryProductCartController {
 		
 			 return output;
 	}
+	
+	//This api is used to get category name that product belongs to based on the product id.
 	 @RequestMapping(value = "/getcategoryname", method = RequestMethod.POST, produces = "application/json")
 		@ResponseBody
 	   public Map<String, Object> getcatregoryname(@RequestBody ProductOrders product) {
@@ -366,7 +378,7 @@ public class CategoryProductCartController {
 
 	
 
-
+//This api is used to add products to the cart, if the product already exists in the cart, then it'll vary the quantity of the product in the cart.
 	@RequestMapping(value = "/addToCart", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public void addingProductToCart(@RequestBody ProductOrders orders) {
@@ -407,6 +419,7 @@ public class CategoryProductCartController {
 		
 	}
 	
+	//This api is used to store order details when clicked on paynow button in the cart page.
 	@RequestMapping(value = "/storeOrderDetails", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> storeOrderDetails(@RequestBody Map<String, Object> requestData) {
@@ -429,6 +442,7 @@ public class CategoryProductCartController {
 		    return response;	
 	}
 	
+	//this api is used to store order item like product_it, number of qunatity, total cost based on order_id.
 	@RequestMapping(value = "/storeOrderItem", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public void storeOrderItem(@RequestBody Map<String, Object> requestData) {
@@ -447,6 +461,7 @@ public class CategoryProductCartController {
 		categoryServices.storeOrderItem(orderitem);
 	}
 	
+	//this api is used to retrive all the orders of users based on userid
 	@RequestMapping(value = "/getMyOrders", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public List<Details> getMyOrders(@RequestBody Map<String, Object> requestData) {
@@ -466,6 +481,7 @@ public class CategoryProductCartController {
 	    return orders;
 	}
 	
+	//this api is used to get order details like number of products, cost. quantity, based on the order id.
 	@RequestMapping(value = "/getDetailsBasedOnOrderId", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Details getDetailsBasedOnOrderId(@RequestBody Map<String, Object> requestData) {
@@ -478,6 +494,7 @@ public class CategoryProductCartController {
 	    return orderDetails;
 	}
 	
+	//this api is used to download the invoice of specific order. it'll generate the pdf and it show product name, product details, total cost.
 	@RequestMapping(value = "/downloadInvoice", method = RequestMethod.POST, produces = MediaType.APPLICATION_PDF_VALUE)
 	@ResponseBody
 	public ResponseEntity<byte[]> downloadInvoice(@RequestBody Map<String, Object> requestData) throws MalformedURLException, IOException {
@@ -607,6 +624,7 @@ public class CategoryProductCartController {
 		return null;
 	}
 
+	//this api is used to vary the quantity of product in the cart page.
 	@RequestMapping(value = "/quantityVariation", method = RequestMethod.POST, produces = "application/json")
 	public int varyQuantity(@RequestBody ProductOrders orders) {
 		String tokenUsername =
@@ -623,7 +641,7 @@ public class CategoryProductCartController {
 	}
 
 	
-
+//this api is used to remove the item from the cart
 	@RequestMapping(value = "/removeItem", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> deleteFromCart(@RequestBody ProductOrders orders) {
